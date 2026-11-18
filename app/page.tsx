@@ -9,7 +9,7 @@ export default function Home() {
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       
       <main>
-      <h1>Find your next bite.</h1>
+      
       <div className="grid">
         {recipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
