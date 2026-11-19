@@ -3,6 +3,8 @@ name: Deploy NextBites to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -28,13 +30,27 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Install dependencies and build the static site
-        run: npm ci && npm run build
+        run: npm ci && npm run build && test -f out/index.html && test -f out/recipe/margherita-pizza/index.html
       - name: Upload the static site
         uses: actions/upload-pages-artifact@v3
         with:
           path: out
 
+  verify-live-site:
+    if: github.event_name == 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm the deployed home and recipe pages respond
+        shell: bash
+        run: |
+          curl --fail --silent --show-error https://not-user-mayank.github.io/5.1-FrontEnd/ -o home.html
+          grep -q "Find your next bite" home.html
+          curl --fail --silent --show-error https://not-user-mayank.github.io/5.1-FrontEnd/recipe/margherita-pizza/ -o recipe.html
+          grep -q "Margherita Pizza" recipe.html
+
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

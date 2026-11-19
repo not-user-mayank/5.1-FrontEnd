@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  applicationName: "NextBites",
   title: {
     default: "NextBites | Simple recipes for every day",
     template: "%s | NextBites",
