@@ -12,11 +12,7 @@ export default async function RecipePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const recipe = getRecipe(id);
-
-  if (!recipe) {
-    notFound();
-  }
+  const recipe = getRecipe(id) ?? notFound();
 
   return (
     <main className="page-shell detail-shell">

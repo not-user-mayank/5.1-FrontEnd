@@ -3,6 +3,8 @@ name: Deploy NextBites to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -28,13 +30,14 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Install dependencies and build the static site
-        run: npm ci && npm run build
+        run: npm ci && npm run build && test -f out/index.html && test -f out/recipe/margherita-pizza/index.html
       - name: Upload the static site
         uses: actions/upload-pages-artifact@v3
         with:
           path: out
 
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

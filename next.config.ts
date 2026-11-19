@@ -1,10 +1,11 @@
 import type { NextConfig } from "next";
 
 const isProduction = process.env.NODE_ENV === "production";
+const githubPagesBasePath = "/5.1-FrontEnd";
 
 const nextConfig: NextConfig = {
-  output: "export",
-  basePath: isProduction ? "/5.1-FrontEnd" : "",
+  output: isProduction ? "export" : undefined,
+  basePath: isProduction ? githubPagesBasePath : "",
   trailingSlash: true,
   images: {
     unoptimized: true,
