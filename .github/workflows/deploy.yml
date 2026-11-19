@@ -36,6 +36,19 @@ jobs:
         with:
           path: out
 
+  verify-live-site:
+    if: github.event_name == 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm the deployed home and recipe pages respond
+        shell: bash
+        run: |
+          curl --fail --silent --show-error https://not-user-mayank.github.io/5.1-FrontEnd/ -o home.html
+          grep -q "Find your next bite" home.html
+          curl --fail --silent --show-error https://not-user-mayank.github.io/5.1-FrontEnd/recipe/margherita-pizza/ -o recipe.html
+          grep -q "Margherita Pizza" recipe.html
+
   deploy:
     if: github.event_name != 'pull_request'
     environment:
