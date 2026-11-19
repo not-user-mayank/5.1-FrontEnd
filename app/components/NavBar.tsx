@@ -2,10 +2,13 @@ import Link from "next/link";
 
 export default function NavBar() {
   return (
-    <nav className="border-b bg-white px-6 py-4">
-      <Link href="/" className="text-xl font-bold text-orange-600">
-        🍳 NextBites
-      </Link>
-    </nav>
+    <header className="site-header">
+      <nav className="nav-inner" aria-label="Main navigation">
+        <Link href="/" className="brand" aria-label="NextBites home">
+          <span aria-hidden="true">🍳</span> NextBites
+        </Link>
+        <span className="nav-note">Good food, made simple</span>
+      </nav>
+    </header>
   );
 }
